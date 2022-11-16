@@ -1,0 +1,9 @@
+{
+    "name": "rodrigo/03_goodv2",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
