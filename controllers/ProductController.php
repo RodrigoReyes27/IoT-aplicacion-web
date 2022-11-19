@@ -17,6 +17,14 @@ class ProductController{
         // ]); # va a llamar a la funcion renderView con parametro 'products/index' de la clase Router 
 
     }
+    
+    public function prueba(Router $router) {
+        $logTemperatures = $router->db->getLogsTemperature();
+
+        return $router->renderView('layouts/prueba', [
+            'temperatures' => $logTemperatures
+        ]);
+    }
 
     // public function create(Router $router){
     //     $errors = [];

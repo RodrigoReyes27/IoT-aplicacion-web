@@ -18,6 +18,17 @@ class Database{
         self::$db = $this;
     }
 
+    public function getLogsTemperature() {
+        // Establecer query a enviar
+        $statement = $this->pdo->prepare('SELECT * FROM sensor_temperatura ORDER BY log_date DESC');
+
+        // Enviar query a la base de datos
+        $statement->execute();
+
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getProducts($search){
         # $search = '' es asi para que por default, no tenga ningun valor
 

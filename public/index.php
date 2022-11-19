@@ -19,6 +19,8 @@ $router -> get('/products/create', [new ProductController, 'create']);
 $router -> get('/', [new ProductController, 'home']);
 $router -> get('/home', [new ProductController, 'home']);
 
+$router -> get('/prueba', [new ProductController, 'prueba']);
+
 // $router -> get('/products/create', [new ProductController, 'create']);
 // $router -> post('/products/create', [new ProductController, 'create']);
 // $router -> get('/products/update', [new ProductController, 'update']);
