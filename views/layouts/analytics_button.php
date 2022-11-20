@@ -119,7 +119,7 @@ google.charts.load("current", {packages:["corechart"]});
               <td><?php echo $button['log_date']?></td>
               
               <?php if ($button['button_state'] == 1): ?>
-                <td>Boton No Activa</td>
+                <td>Boton No Activo</td>
               <?php else: ?>
                 <td>Boton Activado</td>
               <?php endif; ?>

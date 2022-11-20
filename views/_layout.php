@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="./style.css" />
 </head>
-<body>
+<body class="dark-theme-variables">
 
 <div class="container">
     
@@ -89,7 +89,7 @@
 
           <a href="#">
             <span class="material-icons-sharp"> add </span>
-            <h3>Add Product</h3>
+            <h3>Add Analytics</h3>
           </a>
           <a href="#">
             <span class="material-icons-sharp"> logout </span>
@@ -109,37 +109,11 @@
               <span class="material-icons-sharp"> menu </span>
             </button>
             <div class="theme-toggler">
-              <span class="material-icons-sharp active"> light_mode </span>
-              <span class="material-icons-sharp"> dark_mode </span>
+              <span class="material-icons-sharp"> light_mode </span>
+              <span class="material-icons-sharp active"> dark_mode </span>
             </div>
           </div>
         </div>
-
-        <!-- <div class="recent-updates">
-          <h2>Recent Updates</h2>
-            <div class="update">
-              <div class="profile-photo">
-                <img src="${update.imgSrc}" />
-              </div>
-              <div class="message">
-              <p><b>${update.profileName}</b> ${update.message}</p>
-              <small class="text-muted">${update.updatedTime}</small>
-              </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="sales-analytics">
-          <h2>Sales Analytics</h2>
-          <div id="analytics">
-            <!-- Add items div here | JS insertion -->
-          </div>
-          <div class="item add-product">
-            <div>
-              <span class="material-icons-sharp"> add </span>
-              <h3>Add Product</h3>
-            </div>
-          </div>
-        </div> -->
       </div>
 </div>
     

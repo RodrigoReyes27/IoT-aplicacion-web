@@ -124,7 +124,7 @@ google.charts.load("current", {packages:["corechart"]});
               <td><?php echo $temperature['log_date']?></td>
               <td><?php echo $temperature['lectura']?></td>
               <td><?php echo $temperature['parada_id']?></td>
-              <?php if ($temperature['lectura'] > 20): ?>
+              <?php if ($temperature['lectura'] > 21): ?>
                 <td class="${row.statusColor}">Ventilador</td>
               <?php else: ?>
                 <td class="${row.statusColor}">Placa Termica</td>
