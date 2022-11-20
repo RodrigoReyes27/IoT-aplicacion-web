@@ -18,6 +18,27 @@ class Database{
         self::$db = $this;
     }
 
+    public function getAmountLastDay() {
+        $statement = $this->pdo->prepare("
+        SELECT 'rowsLight', COUNT(*) FROM fotoresistor_movimiento fm WHERE fm.log_date >= now() - INTERVAL 1 day
+        UNION
+        SELECT 'rowsButton', COUNT(*) FROM log_peaton lp WHERE lp.log_date >= now() - INTERVAL 1 day
+        UNION
+        SELECT 'rowsDistance', COUNT(*) FROM sensor_distancia sd WHERE sd.log_date >= now() - INTERVAL 1 day
+        UNION
+        SELECT 'rowsPIR', COUNT(*) FROM sensor_pir sp WHERE sp.log_date >= now() - INTERVAL 1 day
+        UNION
+        SELECT 'rowsTemperature', COUNT(*) FROM sensor_temperatura st WHERE st.log_date >= now() - INTERVAL 1 day
+        ");
+
+        // Enviar query a la base de datos
+        $statement->execute();
+
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
     public function getLogsTemperature() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare('SELECT * FROM sensor_temperatura ORDER BY log_date DESC LIMIT 10');
@@ -31,7 +52,7 @@ class Database{
 
     public function getCountTemperatureVentilador() {
         // Establecer query a enviar
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 25');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21 AND log_date >= now() - INTERVAL 1 day');
 
         // Enviar query a la base de datos
         $statement->execute();
@@ -42,7 +63,7 @@ class Database{
 
     public function getCountTemperaturePlaca() {
         // Establecer query a enviar
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura < 25');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
         // Enviar query a la base de datos
         $statement->execute();
         // Retornar resultado de query en forma de arreglo

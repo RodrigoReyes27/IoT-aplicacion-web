@@ -5,8 +5,11 @@ use app\Router;
 
 class Controller{
     public function dashboard(Router $router){
-        
-        return $router ->renderView('layouts/dashboard');
+        $cantidadDatos = $router->db->getAmountLastDay();
+
+        return $router ->renderView('layouts/dashboard', [
+            'cantidades' => $cantidadDatos
+        ]);
     }
     
     public function analytics_temperature(Router $router) {
