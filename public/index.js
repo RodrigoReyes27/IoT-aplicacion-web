@@ -33,7 +33,7 @@ const buildTableBody = () => {
     `;
   }
 
-  tbody.innerHTML = bodyContent;
+  // tbody.innerHTML = bodyContent;
 
   return tbody;
 };
@@ -59,7 +59,7 @@ const buildUpdatesList = () => {
     `;
   }
 
-  div.innerHTML = updateContent;
+  // div.innerHTML = updateContent;
 
   return div;
 };

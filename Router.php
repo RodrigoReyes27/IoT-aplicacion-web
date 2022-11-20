@@ -21,7 +21,6 @@ class Router{
     }
     
     public function resolve(){
-        # $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; # obtendra el url en el que se encuentra
         $method = $_SERVER['REQUEST_METHOD'];
 
         $currentUrl = $_SERVER['REQUEST_URI'] ?? '/';
@@ -35,18 +34,16 @@ class Router{
             $fn = $this -> postRoutes[$currentUrl] ?? null;
         }
         if ($fn){
-            call_user_func($fn, $this); # $fn va a llamar a una de las funciones de ProductController
+            call_user_func($fn, $this); # $fn va a llamar a una de las funciones de Controller
         }
         else {
             echo "Page not found";
         }
     }
 
-    public function renderView($view, $params = []) # view será el path que se quiere mostar ej products/index
+    public function renderView($view, $params = []) # view será el path que se quiere mostar ej layouts/dashboard
     {
         
-        # $params = Un valor que recibe de PRODUCTSCONTROLLER
-        # este LOOP  GUARDARA VALORES de PRODUCTS, SEARCH que recibio de PARAMS y los usará en la pagina que sea llamada
         foreach ($params as $key => $value){
             $$key = $value;
         }

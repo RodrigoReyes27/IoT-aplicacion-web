@@ -1,0 +1,141 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+const movementAside = document.querySelector(".movement");
+const dashboardAside = document.querySelector(".dashboard");
+
+movementAside.classList.add("active"); 
+dashboardAside.classList.remove("active");
+
+const ventilador = document.querySelector(".ventilador");
+const placa = document.querySelector(".placa");
+
+
+google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Ventilador',    1 ],
+          ['Placa Termica',  2    ],
+        ]);
+
+        var options = {
+          pieHole: 0.4,
+          legend: 'none',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+}
+</script>
+
+<p style ="display:none" class="ventilador" value=<?php echo $counterVentilador[0]['count'];?>></p>
+<p style ="display:none" class="placa" value=<?php echo $counterPlaca[0]['count'];?>></p>
+
+<main>
+        <h1>Analiticas Movimiento</h1>
+
+        <div class="date">
+          <input type="date" />
+        </div>
+
+        <div class="insights">
+          <!-- SALES -->
+          <!-- <div class="sales">
+            <div id="donutchart" style="width: 150px; height: 150px;"></div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div> -->
+          <div class="sales">
+            <span class="material-icons-sharp"> analytics </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Total Sales</h3>
+                <h1>$25,024</h1>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>81%</p>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+
+          <!-- EXPENSES -->
+          <div class="expenses">
+            <span class="material-icons-sharp"> bar_chart </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Total Expenses</h3>
+                <h1>$14,160</h1>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>62%</p>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+
+          <!-- INCOME -->
+          <div class="income">
+            <span class="material-icons-sharp"> stacked_line_chart </span>
+            <div class="middle">
+              <div class="left">
+                <h3>Total Income</h3>
+                <h1>$10,864</h1>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>44%</p>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+        </div>
+
+        <div class="recent-orders">
+          <h2>Ultimos registros de Movimiento</h2>
+          <table id="recent-orders--table">
+            <thead>
+              <tr>
+                <th>Id </th>
+                <th>Hora</th>
+                <th>Movimiento</th>
+                <th>Id parada</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php foreach($movements as $movement):?>
+            <tr>
+              <td class="primary"><?php echo $movement['log_id']?></td>
+              <td><?php echo $movement['log_date']?></td>
+              <?php if ($movement['lectura'] == 0): ?>
+                <td class="${row.statusColor}">No hay Movimiento</td>
+              <?php else: ?>
+                <td class="${row.statusColor}">Hay Movimiento</td>
+              <?php endif; ?>
+              <td><?php echo $movement['semaforo_id']?></td>
+
+              
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+            
+
+
+          </table>
+          <a href="#">Show All</a>
+        </div>
+      </main>
