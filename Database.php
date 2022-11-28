@@ -52,7 +52,8 @@ class Database{
 
     public function getCountTemperatureVentilador() {
         // Establecer query a enviar
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21 AND log_date >= now() - INTERVAL 1 day');
+        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21 AND log_date >= now() - INTERVAL 1 day');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21');
 
         // Enviar query a la base de datos
         $statement->execute();
@@ -63,13 +64,38 @@ class Database{
 
     public function getCountTemperaturePlaca() {
         // Establecer query a enviar
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
+        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21');
+
         // Enviar query a la base de datos
         $statement->execute();
         // Retornar resultado de query en forma de arreglo
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCountTemperatureByTime() {
+        // Establecer query a enviar
+        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
+        $statement = $this->pdo->prepare("    
+        select count(*) from sensor_temperatura where time(log_date) > '06:00:00' and time(log_date) < '10:00:00' 
+        Union
+        select count(*) from sensor_temperatura where time(log_date) > '10:00:00' and time(log_date) < '14:00:00'
+        Union
+        select count(*) from sensor_temperatura where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' 
+        Union
+        select count(*) from sensor_temperatura where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' 
+        Union
+        select count(*) from sensor_temperatura where time(log_date) > '20:00:00' and time(log_date) < '22:00:00'
+        ;
+        ");
+
+        // Enviar query a la base de datos
+        $statement->execute();
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+   
     public function getLogsDistance() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare('SELECT * FROM sensor_distancia ORDER BY log_date DESC LIMIT 10');

@@ -6,31 +6,49 @@ const dashboardAside = document.querySelector(".dashboard");
 tempAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
-const ventilador = document.querySelector(".ventilador");
-const placa = document.querySelector(".placa");
-
-
 google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
+        // PIE CHART
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
-          ['Ventilador',    1 ],
-          ['Placa Termica',  2    ],
+          <?php
+            echo "['Ventilador'," . intval($counterVentilador[0]['count']) . "],";
+            echo "['Placa Termica'," . intval($counterPlaca[0]['count']) . "]";
+          ?>
         ]);
 
         var options = {
+          backgroundColor: 'transparent',
+          // 'width':2,
+          // 'height':400,
           pieHole: 0.4,
           legend: 'none',
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-}
-</script>
+        var pieChart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        pieChart.draw(data, options);
 
-<p style ="display:none" class="ventilador" value=<?php echo $counterVentilador[0]['count'];?>></p>
-<p style ="display:none" class="placa" value=<?php echo $counterPlaca[0]['count'];?>></p>
+        var data = google.visualization.arrayToDataTable([
+               ['Year', 'Asia'],
+               ['6-10',  <?php echo intval($counterTiempo[0]['count
+               
+               '])?>],
+               ['10-14',  1000],
+               ['14-17',  1170],
+               ['17-20',  1170],
+               ['20-23',  1170],
+            ]);
+
+            var options = {title: 'Population (in millions)'}; 
+
+            // Instantiate and draw the chart.
+            var column = new google.visualization.ColumnChart(document.getElementById('column'));
+            column.draw(data, options);
+         }
+        
+
+</script>
 
 <main>
         <h1>Analiticas Temperatura</h1>
@@ -38,13 +56,9 @@ google.charts.load("current", {packages:["corechart"]});
         <div class="date">
           <input type="date" />
         </div>
-
+        
         <div class="insights">
-          <!-- SALES -->
-          <!-- <div class="sales">
-            <div id="donutchart" style="width: 150px; height: 150px;"></div>
-            <small class="text-muted"> Last 24 hours </small>
-          </div> -->
+          
           <div class="sales">
             <span class="material-icons-sharp"> analytics </span>
             <h3># Veces activado el Ventilador</h3>
@@ -52,7 +66,6 @@ google.charts.load("current", {packages:["corechart"]});
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
-          <!-- EXPENSES -->
           <div class="expenses">
             <span class="material-icons-sharp"> bar_chart </span>
             <h3># Veces activada la Placa Termica</h3>
@@ -60,6 +73,23 @@ google.charts.load("current", {packages:["corechart"]});
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
+          <div>
+            <h3>Porcentaje Uso de Actuadores</h3>
+            <div id="donutchart" style="height:200px; width:200px; padding:40px; margin: -50px 0px -65px;"></div>
+            <small class="text-muted"> Last 24 hours </small>
+          </div>
+
+        </div>
+
+        <div class="recent-orders">
+          <h2>Ultimos registros de Temperatura</h2>
+          <table>
+            <tr>
+              <td>
+                <div id="column" style="width: 900px; height: 500px;"></div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div class="recent-orders">
