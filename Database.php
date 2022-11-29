@@ -18,6 +18,8 @@ class Database{
         self::$db = $this;
     }
 
+    // DASHBOARD
+
     public function getAmountLastDay() {
         $statement = $this->pdo->prepare("
         SELECT 'rowsLight', COUNT(*) FROM fotoresistor_movimiento fm WHERE fm.log_date >= now() - INTERVAL 1 day
@@ -39,6 +41,8 @@ class Database{
 
     }
 
+    // TEMPERATURA
+
     public function getLogsTemperature() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare('SELECT * FROM sensor_temperatura ORDER BY log_date DESC LIMIT 10');
@@ -52,8 +56,8 @@ class Database{
 
     public function getCountTemperatureVentilador() {
         // Establecer query a enviar
-        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21 AND log_date >= now() - INTERVAL 1 day');
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21 AND log_date >= now() - INTERVAL 1 day');
+        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura > 21');
 
         // Enviar query a la base de datos
         $statement->execute();
@@ -64,8 +68,8 @@ class Database{
 
     public function getCountTemperaturePlaca() {
         // Establecer query a enviar
-        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
-        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21');
+        $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
+        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21');
 
         // Enviar query a la base de datos
         $statement->execute();
@@ -76,15 +80,15 @@ class Database{
     public function getCountTemperatureByTime() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare("
-        select '1', count(*) AS count from sensor_temperatura where time(log_date) > '06:00:00' and time(log_date) < '10:00:00' 
+        select '1', count(*) AS count from sensor_temperatura where time(log_date) > '06:00:00' and time(log_date) < '9:00:00' AND log_date >= now() - INTERVAL 1 day
         Union
-        select '2', count(*) AS count from sensor_temperatura where time(log_date) > '10:00:00' and time(log_date) < '14:00:00'
+        select '2', count(*) AS count from sensor_temperatura where time(log_date) > '9:00:00' and time(log_date) < '14:00:00' AND log_date >= now() - INTERVAL 1 day
         Union
-        select '3', count(*) AS count from sensor_temperatura where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' 
+        select '3', count(*) AS count from sensor_temperatura where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' AND log_date >= now() - INTERVAL 1 day 
         Union
-        select '4', count(*) AS count from sensor_temperatura where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' 
+        select '4', count(*) AS count from sensor_temperatura where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' AND log_date >= now() - INTERVAL 1 day 
         Union
-        select '5', count(*) AS count from sensor_temperatura where time(log_date) > '20:00:00' and time(log_date) < '23:00:00';
+        select '5', count(*) AS count from sensor_temperatura where time(log_date) > '20:00:00' and time(log_date) < '23:00:00' AND log_date >= now() - INTERVAL 1 day;
         ");
 
         // Enviar query a la base de datos
@@ -93,6 +97,7 @@ class Database{
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // DISTANCIA
    
     public function getLogsDistance() {
         // Establecer query a enviar
@@ -103,6 +108,21 @@ class Database{
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAverageDistanceLastDay() {
+        // Establecer query a enviar
+        $statement = $this->pdo->prepare('
+        SELECT AVG(distancia) AS promedioDistancia
+        FROM sensor_distancia
+        WHERE log_date >= now() - INTERVAL 1 day
+        ');
+        // Enviar query a la base de datos
+        $statement->execute();
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // SENSOR MOVIMIENTO Y PIR
+
     public function getLogsMovement() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare('SELECT * FROM sensor_pir ORDER BY log_date DESC LIMIT 10');
@@ -111,6 +131,8 @@ class Database{
         // Retornar resultado de query en forma de arreglo
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // FOTORESISTOR Y MOVIMIENTO
 
     public function getLogsLight() {
         // Establecer query a enviar
@@ -121,9 +143,75 @@ class Database{
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCountMovementByTime() {
+        // Establecer query a enviar
+        $statement = $this->pdo->prepare("
+        select '1', count(*) AS count from fotoresistor_movimiento where time(log_date) > '06:00:00' and time(log_date) < '9:00:00' AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day
+        Union
+        select '2', count(*) AS count from fotoresistor_movimiento where time(log_date) > '9:00:00' and time(log_date) < '14:00:00' AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day
+        Union
+        select '3', count(*) AS count from fotoresistor_movimiento where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day 
+        Union
+        select '4', count(*) AS count from fotoresistor_movimiento where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day 
+        Union
+        select '5', count(*) AS count from fotoresistor_movimiento where time(log_date) > '20:00:00' and time(log_date) < '23:00:00' AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day;
+        ");
+
+        // $statement = $this->pdo->prepare("
+        // select '1', count(*) AS count from fotoresistor_movimiento where time(log_date) > '06:00:00' and time(log_date) < '9:00:00' AND lectura_movimiento = 0
+        // Union
+        // select '2', count(*) AS count from fotoresistor_movimiento where time(log_date) > '9:00:00' and time(log_date) < '14:00:00' AND lectura_movimiento = 0
+        // Union
+        // select '3', count(*) AS count from fotoresistor_movimiento where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' AND lectura_movimiento = 0 
+        // Union
+        // select '4', count(*) AS count from fotoresistor_movimiento where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' AND lectura_movimiento = 0 
+        // Union
+        // select '5', count(*) AS count from fotoresistor_movimiento where time(log_date) > '20:00:00' and time(log_date) < '23:00:00' AND lectura_movimiento = 0;
+        // ");
+
+        // Enviar query a la base de datos
+        $statement->execute();
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCountMovementDayNight() {
+        // Establecer query a enviar
+        $statement = $this->pdo->prepare("
+        select '1', count(*) AS count from fotoresistor_movimiento where lectura_fotoresistor >= 20 AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day
+        Union
+        select '2', count(*) AS count from fotoresistor_movimiento where lectura_fotoresistor < 20  AND lectura_movimiento = 0 AND log_date >= now() - INTERVAL 1 day
+        ");
+
+        // $statement = $this->pdo->prepare("
+        // select '1', count(*) AS count from fotoresistor_movimiento where lectura_fotoresistor >= 20 AND lectura_movimiento = 0
+        // Union
+        // select '2', count(*) AS count from fotoresistor_movimiento where lectura_fotoresistor < 20  AND lectura_movimiento = 0
+        // ");
+
+        // Enviar query a la base de datos
+        $statement->execute();
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // BOTON
+
     public function getLogsButton() {
         // Establecer query a enviar
         $statement = $this->pdo->prepare('SELECT * FROM log_peaton ORDER BY log_date DESC LIMIT 10');
+        // Enviar query a la base de datos
+        $statement->execute();
+        // Retornar resultado de query en forma de arreglo
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCantLogsButtonLastDay() {
+        // Establecer query a enviar
+        $statement = $this->pdo->prepare('
+        SELECT COUNT(*) AS cantChange
+        FROM log_peaton
+        WHERE log_date >= now() - INTERVAL 1 day');
         // Enviar query a la base de datos
         $statement->execute();
         // Retornar resultado de query en forma de arreglo

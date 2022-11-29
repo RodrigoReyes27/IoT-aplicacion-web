@@ -6,10 +6,6 @@ const dashboardAside = document.querySelector(".dashboard");
 movementAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
-const ventilador = document.querySelector(".ventilador");
-const placa = document.querySelector(".placa");
-
-
 google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {

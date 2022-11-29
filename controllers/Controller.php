@@ -28,9 +28,23 @@ class Controller{
     
     public function analytics_distance(Router $router) {
         $logDistance = $router->db->getLogsDistance();
+        $avgDistance = $router->db->getAverageDistanceLastDay();
 
         return $router->renderView('layouts/analytics_distance', [
             'distances' => $logDistance,
+            'avgDistance' => $avgDistance
+        ]);
+    }
+
+    public function analytics_light(Router $router) {
+        $logLight = $router->db->getLogsLight();
+        $countMovement = $router->db->getCountMovementByTime();
+        $movementByTime = $router->db->getCountMovementDayNight();
+
+        return $router->renderView('layouts/analytics_light', [
+            'lights' => $logLight,
+            'countMovement' => $countMovement,
+            'movementByTime' => $movementByTime
         ]);
     }
 
@@ -42,19 +56,13 @@ class Controller{
         ]);
     }
 
-    public function analytics_light(Router $router) {
-        $logLight = $router->db->getLogsLight();
-
-        return $router->renderView('layouts/analytics_light', [
-            'lights' => $logLight
-        ]);
-    }
-
     public function analytics_boton(Router $router) {
         $logButton = $router->db->getLogsButton();
+        $cantLogButton = $router->db->getCantLogsButtonLastDay();
 
         return $router->renderView('layouts/analytics_button', [
-            'buttons' => $logButton
+            'buttons' => $logButton,
+            'cantLogButton' => $cantLogButton
         ]);
     }
 }

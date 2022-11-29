@@ -6,26 +6,42 @@ const dashboardAside = document.querySelector(".dashboard");
 distanceAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
-const ventilador = document.querySelector(".ventilador");
-const placa = document.querySelector(".placa");
-
-
 google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
+        // PIE CHART
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Ventilador',    1 ],
-          ['Placa Termica',  2    ],
+          ['Distancia', 'Porcentaje'],
+          <?php
+            $alturaDesnivel = 15;
+
+            if (intval($avgDistance[0]['promedioDistancia']) == 0) {
+              $nivelAgua = 0;
+            }
+            else {
+              $nivelAgua = $alturaDesnivel - floatval($avgDistance[0]['promedioDistancia']);
+            }
+            $nivelAguaPeligro = 9;
+
+            if ($nivelAgua >= $nivelAguaPeligro) {
+              echo "['Distancia para peligro', 0],";
+              echo "['Nivel de Agua', 1]";  
+            }
+            else {
+              echo "['Distancia para peligro'," . ($nivelAguaPeligro - $nivelAgua) . "],";
+              echo "['Nivel de Agua'," . $nivelAgua . "]";
+            }
+          ?>
         ]);
 
         var options = {
+          backgroundColor: 'transparent',
           pieHole: 0.4,
           legend: 'none',
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
+        var pieChart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        pieChart.draw(data, options);
 }
 </script>
 
@@ -37,26 +53,29 @@ google.charts.load("current", {packages:["corechart"]});
         </div>
 
         <div class="insights">
-          <!-- SALES -->
-          <div class="sales">
+    
+          <div>
             <span class="material-icons-sharp"> analytics </span>
-            <h3>Promedio Nivel de agua en desnivel durante</h3>
-            <h1>7 centimetros</h1>
+            <h3>Promedio Nivel de agua en desnivel</h3>
+            <h1><?php echo substr($nivelAgua, 0 ,4)?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
-          <!-- EXPENSES -->
           <div class="expenses">
-            <span class="material-icons-sharp"> stacked_line_chart </span>
+            <span class="material-icons-sharp"> analytics </span>
+            <h3>Estatus de activación del Servomotor</h3>
+            <?php if($distances[0]['distancia'] >= $nivelAguaPeligro):?>
+              <h1>Activado</h1>
+            <?php else: ?>
+              <h1>No Activado</h1>
+            <?php endif; ?>
+            <small class="text-muted"> Ultimas 24 horas </small>
+          </div>
+
+          <div>
             <h3>Porcentaje de riesgo de inundaccion</h3>
-              <div class="progress" style="margin: auto;">
-                  <svg>
-                    <circle cx="38" cy="38" r="36"></circle>
-                  </svg>
-                  <div class="number">
-                    <p>44%</p>
-                  </div>
-                </div>
+            <div id="donutchart" style="height:200px; width:200px; padding:40px; margin: -50px 0px -65px;"></div>
+            <small class="text-muted" style="margin-bottom: -20px;">Azul: Seguro  Rojo: Peligro</small>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
           

@@ -30,8 +30,8 @@ google.charts.load("current", {packages:["corechart"]});
         var data = google.visualization.arrayToDataTable([
               ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
               <?php
-                echo "['6-10'," . intval($countTiempo[0]['count']) . ", " . intval($countTiempo[0]['count']) . ", 'color: #7380ec'],";
-                echo "['10-14'," . intval($countTiempo[1]['count']) . ", " . intval($countTiempo[1]['count']) . ", 'color: #7380ec'],";
+                echo "['6-9'," . intval($countTiempo[0]['count']) . ", " . intval($countTiempo[0]['count']) . ", 'color: #7380ec'],";
+                echo "['9-14'," . intval($countTiempo[1]['count']) . ", " . intval($countTiempo[1]['count']) . ", 'color: #7380ec'],";
                 echo "['14-17'," . intval($countTiempo[2]['count']) . ", " . intval($countTiempo[2]['count']) . ", 'color: #7380ec'],";
                 echo "['17-20'," . intval($countTiempo[3]['count']) . ", " . intval($countTiempo[3]['count']) . ", 'color: #7380ec'],";
                 echo "['20-23'," . intval($countTiempo[4]['count']) . ", " . intval($countTiempo[4]['count']) . ", 'color: #7380ec'],";
@@ -41,6 +41,24 @@ google.charts.load("current", {packages:["corechart"]});
             var options = {
               legend: 'none',
               backgroundColor: 'transparent',
+              vAxis:{
+                baselineColor: '#7d8da1',
+                gridlineColor: '#7d8da1',
+                textStyle: {
+                  color: '#7d8da1'
+                },
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                  max: 15,
+                  min: 0
+                },
+                isStacked: true
+              },
+              hAxis: {
+                textStyle: {
+                  color: '#7d8da1'
+                }
+              }
             }; 
 
             // Instantiate and draw the chart.

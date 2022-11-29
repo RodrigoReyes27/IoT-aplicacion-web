@@ -6,26 +6,66 @@ const dashboardAside = document.querySelector(".dashboard");
 lightAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
-const ventilador = document.querySelector(".ventilador");
-const placa = document.querySelector(".placa");
-
-
 google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
+        // PIE CHART
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Ventilador',    1 ],
-          ['Placa Termica',  2    ],
+          ['Encendido', 'Porcentaje'],
+          <?php
+              echo "['No encendido'," . $movementByTime[0]['count'] . "],";
+              echo "['Encendido'," . $movementByTime[1]['count'] . "]";
+          ?>
         ]);
 
         var options = {
+          backgroundColor: 'transparent',
           pieHole: 0.4,
           legend: 'none',
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
+        // COLUMN CHART
+
+        var pieChart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        pieChart.draw(data, options);
+
+        var data = google.visualization.arrayToDataTable([
+              ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
+              <?php
+                echo "['6-9'," . intval($countMovement[0]['count']) . ", " . intval($countMovement[0]['count']) . ", 'color: #7380ec'],";
+                echo "['9-14'," . intval($countMovement[1]['count']) . ", " . intval($countMovement[1]['count']) . ", 'color: #7380ec'],";
+                echo "['14-17'," . intval($countMovement[2]['count']) . ", " . intval($countMovement[2]['count']) . ", 'color: #7380ec'],";
+                echo "['17-20'," . intval($countMovement[3]['count']) . ", " . intval($countMovement[3]['count']) . ", 'color: #7380ec'],";
+                echo "['20-23'," . intval($countMovement[4]['count']) . ", " . intval($countMovement[4]['count']) . ", 'color: #7380ec'],";
+              ?>
+            ]);
+
+            var options = {
+              legend: 'none',
+              backgroundColor: 'transparent',
+              vAxis:{
+                baselineColor: '#7d8da1',
+                gridlineColor: '#7d8da1',
+                textStyle: {
+                  color: '#7d8da1'
+                },
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                  max: 120,
+                  min: 0
+                },
+                isStacked: true
+              },
+              hAxis: {
+                textStyle: {
+                  color: '#7d8da1'
+                }
+              }
+            }; 
+
+            // Instantiate and draw the chart.
+            var column = new google.visualization.ColumnChart(document.getElementById('column'));
+            column.draw(data, options);
 }
 </script>
 
@@ -44,38 +84,37 @@ google.charts.load("current", {packages:["corechart"]});
           </div> -->
           <div class="sales">
             <span class="material-icons-sharp"> analytics </span>
-            <h3># Veces Movimiento detectado durante el dia</h3>
-            <h1>20</h1>
+            <h3># Veces de Movimiento detectado durante el dia</h3>
+            <h1><?php echo $movementByTime[0]['count']?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
           <!-- EXPENSES -->
           <div class="expenses">
             <span class="material-icons-sharp"> bar_chart </span>
-            <h3># Veces Movimiento detectado durante la noche</h3>
-            <h1>10</h1>
+            <h3># Veces de Movimiento detectado durante la noche</h3>
+            <h1><?php echo $movementByTime[1]['count']?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
           <!-- INCOME -->
           <div class="income">
-            <span class="material-icons-sharp"> stacked_line_chart </span>
-            <div class="middle">
-              <div class="left">
-                <h3>Activacion de Luz</h3>
-                <h1>44%</h1>
-              </div>
-              <div class="progress">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="number">
-                  <p>44%</p>
-                </div>
-              </div>
-            </div>
+          <h3>Porcentaje de activación de Luces</h3>
+            <div id="donutchart" style="height:200px; width:200px; padding:40px; margin: -50px 0px -65px;"></div>
+            <small class="text-muted" style="margin-bottom: -20px;">Azul: NO encendido  Rojo: Encendido</small>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
+        </div>
+
+        <div class="recent-orders">
+          <h2>Uso durante el Día</h2>
+          <table>
+            <tr>
+              <td>
+                <div id="column" style="width: 900px; height: 500px; margin: auto;"></div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div class="recent-orders">

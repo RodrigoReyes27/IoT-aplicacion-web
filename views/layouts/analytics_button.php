@@ -6,26 +6,6 @@ const dashboardAside = document.querySelector(".dashboard");
 buttonAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
-const ventilador = document.querySelector(".ventilador");
-const placa = document.querySelector(".placa");
-
-google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Ventilador',    1 ],
-          ['Placa Termica',  2    ],
-        ]);
-
-        var options = {
-          pieHole: 0.4,
-          legend: 'none',
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-}
 </script>
 
 <main>
@@ -41,23 +21,22 @@ google.charts.load("current", {packages:["corechart"]});
             <div id="donutchart" style="width: 150px; height: 150px;"></div>
             <small class="text-muted"> Last 24 hours </small>
           </div> -->
-          <div class="sales">
+          <div class="income">
             <span class="material-icons-sharp"> analytics </span>
-            <h3>Tiempo medio de respuesta de intersecciones</h3>
-            <h1>2 minutos</h1>
+            <h3># Veces que se altero el estado del semaforo</h3>
+            <h1><?php echo $cantLogButton[0]['cantChange']?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
           
         </div>
 
         <div class="recent-orders">
-          <h2>Ultimos registros de Boton</h2>
+          <h2>Ultimos activaciones de Boton</h2>
           <table id="recent-orders--table">
             <thead>
               <tr>
                 <th>Id </th>
                 <th>Hora</th>
-                <th>Boton</th>
                 <th>Id semaforo</th>
               </tr>
             </thead>
@@ -66,12 +45,6 @@ google.charts.load("current", {packages:["corechart"]});
             <tr>
               <td class="primary"><?php echo $button['log_id']?></td>
               <td><?php echo $button['log_date']?></td>
-              
-              <?php if ($button['button_state'] == 1): ?>
-                <td>Boton No Activo</td>
-              <?php else: ?>
-                <td>Boton Activado</td>
-              <?php endif; ?>
               <td><?php echo $button['semaforo_id']?></td>
 
               
