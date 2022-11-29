@@ -75,18 +75,16 @@ class Database{
 
     public function getCountTemperatureByTime() {
         // Establecer query a enviar
-        // $statement = $this->pdo->prepare('SELECT Count(lectura) AS count FROM sensor_temperatura WHERE lectura <= 21 AND log_date >= now() - INTERVAL 1 day');
-        $statement = $this->pdo->prepare("    
-        select count(*) from sensor_temperatura where time(log_date) > '06:00:00' and time(log_date) < '10:00:00' 
+        $statement = $this->pdo->prepare("
+        select '1', count(*) AS count from sensor_temperatura where time(log_date) > '06:00:00' and time(log_date) < '10:00:00' 
         Union
-        select count(*) from sensor_temperatura where time(log_date) > '10:00:00' and time(log_date) < '14:00:00'
+        select '2', count(*) AS count from sensor_temperatura where time(log_date) > '10:00:00' and time(log_date) < '14:00:00'
         Union
-        select count(*) from sensor_temperatura where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' 
+        select '3', count(*) AS count from sensor_temperatura where time(log_date) > '14:00:00' and time(log_date) < '17:00:00' 
         Union
-        select count(*) from sensor_temperatura where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' 
+        select '4', count(*) AS count from sensor_temperatura where time(log_date) > '17:00:00' and time(log_date) < '20:00:00' 
         Union
-        select count(*) from sensor_temperatura where time(log_date) > '20:00:00' and time(log_date) < '22:00:00'
-        ;
+        select '5', count(*) AS count from sensor_temperatura where time(log_date) > '20:00:00' and time(log_date) < '23:00:00';
         ");
 
         // Enviar query a la base de datos

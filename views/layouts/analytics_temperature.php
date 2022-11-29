@@ -11,7 +11,7 @@ google.charts.load("current", {packages:["corechart"]});
       function drawChart() {
         // PIE CHART
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
+          ['Actuador', 'Veces Activado'],
           <?php
             echo "['Ventilador'," . intval($counterVentilador[0]['count']) . "],";
             echo "['Placa Termica'," . intval($counterPlaca[0]['count']) . "]";
@@ -20,8 +20,6 @@ google.charts.load("current", {packages:["corechart"]});
 
         var options = {
           backgroundColor: 'transparent',
-          // 'width':2,
-          // 'height':400,
           pieHole: 0.4,
           legend: 'none',
         };
@@ -30,17 +28,20 @@ google.charts.load("current", {packages:["corechart"]});
         pieChart.draw(data, options);
 
         var data = google.visualization.arrayToDataTable([
-               ['Year', 'Asia'],
-               ['6-10',  <?php echo intval($counterTiempo[0]['count
-               
-               '])?>],
-               ['10-14',  1000],
-               ['14-17',  1170],
-               ['17-20',  1170],
-               ['20-23',  1170],
+              ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
+              <?php
+                echo "['6-10'," . intval($countTiempo[0]['count']) . ", " . intval($countTiempo[0]['count']) . ", 'color: #7380ec'],";
+                echo "['10-14'," . intval($countTiempo[1]['count']) . ", " . intval($countTiempo[1]['count']) . ", 'color: #7380ec'],";
+                echo "['14-17'," . intval($countTiempo[2]['count']) . ", " . intval($countTiempo[2]['count']) . ", 'color: #7380ec'],";
+                echo "['17-20'," . intval($countTiempo[3]['count']) . ", " . intval($countTiempo[3]['count']) . ", 'color: #7380ec'],";
+                echo "['20-23'," . intval($countTiempo[4]['count']) . ", " . intval($countTiempo[4]['count']) . ", 'color: #7380ec'],";
+              ?>
             ]);
 
-            var options = {title: 'Population (in millions)'}; 
+            var options = {
+              legend: 'none',
+              backgroundColor: 'transparent',
+            }; 
 
             // Instantiate and draw the chart.
             var column = new google.visualization.ColumnChart(document.getElementById('column'));
@@ -76,17 +77,17 @@ google.charts.load("current", {packages:["corechart"]});
           <div>
             <h3>Porcentaje Uso de Actuadores</h3>
             <div id="donutchart" style="height:200px; width:200px; padding:40px; margin: -50px 0px -65px;"></div>
-            <small class="text-muted"> Last 24 hours </small>
+            <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
         </div>
 
         <div class="recent-orders">
-          <h2>Ultimos registros de Temperatura</h2>
+          <h2>Uso durante el Día</h2>
           <table>
             <tr>
               <td>
-                <div id="column" style="width: 900px; height: 500px;"></div>
+                <div id="column" style="width: 900px; height: 500px; margin: auto;"></div>
               </td>
             </tr>
           </table>

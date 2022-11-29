@@ -16,13 +16,13 @@ class Controller{
         $logTemperatures = $router->db->getLogsTemperature();
         $counterVentilador = $router->db->getCountTemperatureVentilador();
         $counterPlaca = $router->db->getCountTemperaturePlaca();
-        $counterTiempo = $router->db->getCountTemperatureByTime();
+        $countTiempo = $router->db->getCountTemperatureByTime();
 
         return $router->renderView('layouts/analytics_temperature', [
             'temperatures' => $logTemperatures,
             'counterVentilador' => $counterVentilador,
             'counterPlaca' => $counterPlaca,
-            'counterTiempo' => $counterTiempo,
+            'countTiempo' => $countTiempo,
         ]);
     }
     
