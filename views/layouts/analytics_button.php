@@ -6,6 +6,48 @@ const dashboardAside = document.querySelector(".dashboard");
 buttonAside.classList.add("active"); 
 dashboardAside.classList.remove("active");
 
+google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+              ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
+              <?php
+                echo "['6-9'," . intval($countButtonByTime[0]['count']) . ", " . intval($countButtonByTime[0]['count']) . ", 'color: #7380ec'],";
+                echo "['9-14'," . intval($countButtonByTime[1]['count']) . ", " . intval($countButtonByTime[1]['count']) . ", 'color: #7380ec'],";
+                echo "['14-17'," . intval($countButtonByTime[2]['count']) . ", " . intval($countButtonByTime[2]['count']) . ", 'color: #7380ec'],";
+                echo "['17-20'," . intval($countButtonByTime[3]['count']) . ", " . intval($countButtonByTime[3]['count']) . ", 'color: #7380ec'],";
+                echo "['20-24'," . intval($countButtonByTime[4]['count']) . ", " . intval($countButtonByTime[4]['count']) . ", 'color: #7380ec'],";
+              ?>
+            ]);
+
+            var options = {
+              legend: 'none',
+              backgroundColor: 'transparent',
+              vAxis:{
+                baselineColor: '#7d8da1',
+                gridlineColor: '#7d8da1',
+                textStyle: {
+                  color: '#7d8da1'
+                },
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                  max: 40,
+                  min: 0
+                },
+                isStacked: true
+              },
+              hAxis: {
+                textStyle: {
+                  color: '#7d8da1'
+                }
+              }
+            }; 
+
+            // Instantiate and draw the chart.
+            var column = new google.visualization.ColumnChart(document.getElementById('column'));
+            column.draw(data, options);
+}
+
 </script>
 
 <main>
@@ -28,6 +70,17 @@ dashboardAside.classList.remove("active");
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
           
+        </div>
+
+        <div class="recent-orders">
+          <h2>Alteraciones durante el Día</h2>
+          <table>
+            <tr>
+              <td>
+                <div id="column" style="width: 900px; height: 500px; margin: auto;"></div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div class="recent-orders">

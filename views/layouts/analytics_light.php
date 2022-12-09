@@ -13,8 +13,8 @@ google.charts.load("current", {packages:["corechart"]});
         var data = google.visualization.arrayToDataTable([
           ['Encendido', 'Porcentaje'],
           <?php
-              echo "['No encendido'," . $movementByTime[0]['count'] . "],";
-              echo "['Encendido'," . $movementByTime[1]['count'] . "]";
+              echo "['No encendido'," . $countMovement[0]['count'] . "],";
+              echo "['Encendido'," . $countMovement[1]['count'] . "]";
           ?>
         ]);
 
@@ -32,11 +32,11 @@ google.charts.load("current", {packages:["corechart"]});
         var data = google.visualization.arrayToDataTable([
               ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
               <?php
-                echo "['6-9'," . intval($countMovement[0]['count']) . ", " . intval($countMovement[0]['count']) . ", 'color: #7380ec'],";
-                echo "['9-14'," . intval($countMovement[1]['count']) . ", " . intval($countMovement[1]['count']) . ", 'color: #7380ec'],";
-                echo "['14-17'," . intval($countMovement[2]['count']) . ", " . intval($countMovement[2]['count']) . ", 'color: #7380ec'],";
-                echo "['17-20'," . intval($countMovement[3]['count']) . ", " . intval($countMovement[3]['count']) . ", 'color: #7380ec'],";
-                echo "['20-23'," . intval($countMovement[4]['count']) . ", " . intval($countMovement[4]['count']) . ", 'color: #7380ec'],";
+                echo "['6-9'," . intval($movementByTime[0]['count']) . ", " . intval($movementByTime[0]['count']) . ", 'color: #7380ec'],";
+                echo "['9-14'," . intval($movementByTime[1]['count']) . ", " . intval($movementByTime[1]['count']) . ", 'color: #7380ec'],";
+                echo "['14-17'," . intval($movementByTime[2]['count']) . ", " . intval($movementByTime[2]['count']) . ", 'color: #7380ec'],";
+                echo "['17-20'," . intval($movementByTime[3]['count']) . ", " . intval($movementByTime[3]['count']) . ", 'color: #7380ec'],";
+                echo "['20-24'," . intval($movementByTime[4]['count']) . ", " . intval($movementByTime[4]['count']) . ", 'color: #7380ec'],";
               ?>
             ]);
 
@@ -51,7 +51,7 @@ google.charts.load("current", {packages:["corechart"]});
                 },
                 viewWindowMode: 'explicit',
                 viewWindow: {
-                  max: 120,
+                  max: 350,
                   min: 0
                 },
                 isStacked: true
@@ -85,7 +85,7 @@ google.charts.load("current", {packages:["corechart"]});
           <div class="sales">
             <span class="material-icons-sharp"> analytics </span>
             <h3># Veces de Movimiento detectado durante el dia</h3>
-            <h1><?php echo $movementByTime[0]['count']?></h1>
+            <h1><?php echo $countMovement[0]['count']?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
@@ -93,7 +93,7 @@ google.charts.load("current", {packages:["corechart"]});
           <div class="expenses">
             <span class="material-icons-sharp"> bar_chart </span>
             <h3># Veces de Movimiento detectado durante la noche</h3>
-            <h1><?php echo $movementByTime[1]['count']?></h1>
+            <h1><?php echo $countMovement[1]['count']?></h1>
             <small class="text-muted"> Ultimas 24 horas </small>
           </div>
 
@@ -107,7 +107,7 @@ google.charts.load("current", {packages:["corechart"]});
         </div>
 
         <div class="recent-orders">
-          <h2>Uso durante el Día</h2>
+          <h2>Movimiento en la banqueta durante el día</h2>
           <table>
             <tr>
               <td>

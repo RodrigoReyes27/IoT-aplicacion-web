@@ -13,7 +13,7 @@ google.charts.load("current", {packages:["corechart"]});
         var data = google.visualization.arrayToDataTable([
           ['Distancia', 'Porcentaje'],
           <?php
-            $alturaDesnivel = 15;
+            $alturaDesnivel = 11;
 
             if (intval($avgDistance[0]['promedioDistancia']) == 0) {
               $nivelAgua = 0;
@@ -21,8 +21,8 @@ google.charts.load("current", {packages:["corechart"]});
             else {
               $nivelAgua = $alturaDesnivel - floatval($avgDistance[0]['promedioDistancia']);
             }
-            $nivelAguaPeligro = 9;
-
+            $nivelAguaPeligro = 4;
+ 
             if ($nivelAgua >= $nivelAguaPeligro) {
               echo "['Distancia para peligro', 0],";
               echo "['Nivel de Agua', 1]";  
@@ -64,7 +64,9 @@ google.charts.load("current", {packages:["corechart"]});
           <div class="expenses">
             <span class="material-icons-sharp"> analytics </span>
             <h3>Estatus de activación del Servomotor</h3>
-            <?php if($distances[0]['distancia'] >= $nivelAguaPeligro):?>
+            <?php if(!$distances):?>
+              <h1>No Activado</h1>
+            <?php elseif($distances[0]['distancia'] >= $nivelAguaPeligro):?>
               <h1>Activado</h1>
             <?php else: ?>
               <h1>No Activado</h1>

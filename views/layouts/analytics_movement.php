@@ -10,18 +10,42 @@ google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Ventilador',    1 ],
-          ['Placa Termica',  2    ],
-        ]);
+              ['Hora', 'Activaciones', {role: 'annotation'}, {role: 'style'}],
+              <?php
+                echo "['6-9'," . intval($countMovement[0]['count']) . ", " . intval($countMovement[0]['count']) . ", 'color: #7380ec'],";
+                echo "['9-14'," . intval($countMovement[1]['count']) . ", " . intval($countMovement[1]['count']) . ", 'color: #7380ec'],";
+                echo "['14-17'," . intval($countMovement[2]['count']) . ", " . intval($countMovement[2]['count']) . ", 'color: #7380ec'],";
+                echo "['17-20'," . intval($countMovement[3]['count']) . ", " . intval($countMovement[3]['count']) . ", 'color: #7380ec'],";
+                echo "['20-24'," . intval($countMovement[4]['count']) . ", " . intval($countMovement[4]['count']) . ", 'color: #7380ec'],";
+              ?>
+            ]);
 
-        var options = {
-          pieHole: 0.4,
-          legend: 'none',
-        };
+            var options = {
+              legend: 'none',
+              backgroundColor: 'transparent',
+              vAxis:{
+                baselineColor: '#7d8da1',
+                gridlineColor: '#7d8da1',
+                textStyle: {
+                  color: '#7d8da1'
+                },
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                  max: 120,
+                  min: 0
+                },
+                isStacked: true
+              },
+              hAxis: {
+                textStyle: {
+                  color: '#7d8da1'
+                }
+              }
+            }; 
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
+            // Instantiate and draw the chart.
+            var column = new google.visualization.ColumnChart(document.getElementById('column'));
+            column.draw(data, options);
 }
 </script>
 
@@ -36,6 +60,16 @@ google.charts.load("current", {packages:["corechart"]});
         </div>
 
         
+        <div class="recent-orders">
+          <h2>Movimiento en la calle durante el Día</h2>
+          <table>
+            <tr>
+              <td>
+                <div id="column" style="width: 900px; height: 500px; margin: auto;"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
 
         <div class="recent-orders">
           <h2>Ultimos registros de Movimiento</h2>

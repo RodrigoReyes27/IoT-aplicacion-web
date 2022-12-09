@@ -53,12 +53,7 @@
               <h3>Boton</h3>
             </a>
             <a href="#">
-              <span class="material-icons-sharp"> add </span>
-              <h3>Añadir</h3>
-            </a>
-            <a href="#">
-              <span class="material-icons-sharp"> logout </span>
-              <h3>Logout</h3>
+              <h3></h3>
             </a>
           </div>
         </aside>

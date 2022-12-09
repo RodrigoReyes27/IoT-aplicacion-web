@@ -38,8 +38,8 @@ class Controller{
 
     public function analytics_light(Router $router) {
         $logLight = $router->db->getLogsLight();
-        $countMovement = $router->db->getCountMovementByTime();
-        $movementByTime = $router->db->getCountMovementDayNight();
+        $movementByTime = $router->db->getCountMovementByTimeSideWalk();
+        $countMovement = $router->db->getCountMovementDayNight();
 
         return $router->renderView('layouts/analytics_light', [
             'lights' => $logLight,
@@ -50,19 +50,23 @@ class Controller{
 
     public function analytics_movement(Router $router) {
         $logMovement = $router->db->getLogsMovement();
+        $countMovement = $router->db->getCountMovementByTimeRoad();
 
         return $router->renderView('layouts/analytics_movement', [
-            'movements' => $logMovement
+            'movements' => $logMovement,
+            'countMovement' => $countMovement
         ]);
     }
 
     public function analytics_boton(Router $router) {
         $logButton = $router->db->getLogsButton();
         $cantLogButton = $router->db->getCantLogsButtonLastDay();
+        $countButtonByTime = $router->db->getCountButtonByTime();
 
         return $router->renderView('layouts/analytics_button', [
             'buttons' => $logButton,
-            'cantLogButton' => $cantLogButton
+            'cantLogButton' => $cantLogButton,
+            'countButtonByTime' => $countButtonByTime
         ]);
     }
 }
